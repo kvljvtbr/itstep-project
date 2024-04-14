@@ -1,0 +1,34 @@
+<section>
+    <h4>To Do App</h4>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="task" placeholder="Enter a task here"/>
+        <button type="submit">Add Task</button>
+    </form>
+{#    <a href="{% url 'logout' %}"><button>Logout</button></a>#}
+    <table>
+        <thead>
+            <tr>
+                <th>Todo item</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in todos %}
+            <tr>
+                <td>{{i.todo_name}}</td>
+                {% if i.status == True %}
+                <td>Completed</td>
+                {% else %}
+                <td>In progress</td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'delete' i.todo_name %}"><button>Delete</button></a>
+                    <a href="{% url 'update' i.todo_name %}"><button>Finished</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
