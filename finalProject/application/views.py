@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
-
 from django.contrib.auth.models import User
 
 from django.contrib import messages
@@ -18,7 +17,12 @@ def home(request):
         new_task = Todo(user=request.user, name=task)
         new_task.save()
 
-    return render(request, 'home.html')
+    existing_todos = Todo.objects.filter(user=request.user)
+    context = {
+        'todos': existing_todos
+    }
+
+    return render(request, 'home.html', context)
 
 
 def register(request):
@@ -63,3 +67,16 @@ def loginpage(request):
             return redirect('login')
 
     return render(request, 'login.html')
+
+
+def delete_task(request, task_name):
+    todo = Todo.objects.get(user=request.user, name=task_name)
+    todo.delete()
+    return redirect('home')
+
+
+def update_task(request, task_name):
+    todo = Todo.objects.get(user=request.user, name=task_name)
+    todo.status = True
+    todo.save()
+    return redirect('home')

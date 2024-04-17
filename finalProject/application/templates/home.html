@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Home</title>
 </head>
 <body>
     <h4>Homepage</h4>
@@ -16,26 +16,28 @@
     <table>
         <thead>
             <tr>
-                <th>Todo item</th>
+                <th>Task name</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for i in todos %}
+
+            {% for todo in todos %}
             <tr>
-                <td>{{i.todo_name}}</td>
-                {% if i.status == True %}
-                <td>Completed</td>
+                <td>{{ todo.name }}</td>
+                {% if todo.status == True %}
+                    <td style="color: green">Completed</td>
                 {% else %}
-                <td>In progress</td>
+                    <td style="color: blue">In progress</td>
                 {% endif %}
                 <td>
-                    <a href="{% url 'delete' i.todo_name %}"><button>Delete</button></a>
-                    <a href="{% url 'update' i.todo_name %}"><button>Finished</button></a>
+                    <a href="{% url 'delete' todo.name %}"><button style="color: red">delete task</button></a>
+                    <a href="{% url 'update' todo.name %}"><button style="color: green">finish task</button></a>
                 </td>
             </tr>
             {% endfor %}
+
         </tbody>
     </table>
 </body>
