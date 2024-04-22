@@ -6,13 +6,17 @@
   <title>Home</title>
 </head>
 <body>
-    <h4>Homepage</h4>
+    <h2>Homepage</h2><br>
+    <div>
+        <a href="{% url 'deleted_tasks' %}">View Deleted Todos</a><br>
+        <a href="{% url 'in_progress_tasks' %}">View In Progress Todos</a><br>
+        <a href="{% url 'completed_tasks' %}">View Completed Todos</a><br>
+    </div>
     <form method="POST">
         {% csrf_token %}
-        <input type="text" placeholder="Enter a task here" name="task"/>
+        <input type="text" placeholder="Task..." name="task"/>
         <button type="submit">Add Task</button>
     </form>
-{#    <a href="{% url 'logout' %}"><button>Logout</button></a>#}
     <table>
         <thead>
             <tr>

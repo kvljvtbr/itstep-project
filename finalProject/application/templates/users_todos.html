@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users Todos</title>
+</head>
+<body>
+    <h2>Users todos</h2><br>
+    <form action="{% url 'print_users_todos' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">show users and their todos</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Task name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_todo in users_with_todos %}
+                {% if user_todo.todos %}
+                    {% for todo in user_todo.todos %}
+                        <tr>
+                            {% if forloop.first %}
+                                <td rowspan="{{ user_todo.todos.count }}">{{ user_todo.user.username }}</td>
+                            {% endif %}
+                            <td>{{ todo.name }}</td>
+                            {% if todo.status %}
+                                <td style="color: green">Completed</td>
+                            {% else %}
+                                <td style="color: blue">In progress</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>{{ user_todo.user.username }}</td>
+                        <td colspan="2">No tasks</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
