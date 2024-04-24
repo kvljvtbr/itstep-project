@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from django.contrib import messages
@@ -11,6 +12,7 @@ from django.contrib import messages
 from .models import Todo
 
 
+@login_required
 def home(request):
     if request.method == 'POST':
         task = request.POST.get('task')
@@ -19,7 +21,9 @@ def home(request):
 
     existing_todos = Todo.objects.filter(user=request.user)
     context = {
-        'todos': existing_todos
+        'todos': existing_todos,
+        'username': request.user.username,
+        'is_admin': request.user.is_superuser
     }
 
     return render(request, 'home.html', context)
@@ -69,6 +73,11 @@ def loginpage(request):
     return render(request, 'login.html')
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
 def delete_task(request, task_name):
     todo = Todo.objects.get(user=request.user, name=task_name)
     todo.delete()
@@ -79,7 +88,11 @@ def update_task(request, task_name):
     todo = Todo.objects.get(user=request.user, name=task_name)
     todo.status = True
     todo.save()
-    return redirect('home')
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return redirect(referer)
+    else:
+        return redirect('home')
 
 
 def print_users_tasks(request):
@@ -101,12 +114,24 @@ def print_users_tasks(request):
 
 
 def deleted_tasks(request):
-    pass
-
-
-def in_progress_tasks(request):
-    pass
+    deleted_todos = Todo.objects.filter(user=request.user, status=False)
+    context = {
+        'todos': deleted_todos
+    }
+    return render(request, 'deleted_tasks.html', context)
 
 
 def completed_tasks(request):
-    pass
+    completed_todos = Todo.objects.filter(user=request.user, status=True)
+    context = {
+        'todos': completed_todos
+    }
+    return render(request, 'completed_tasks.html', context)
+
+
+def in_progress_tasks(request):
+    in_progress_todos = Todo.objects.filter(user=request.user, status=False)
+    context = {
+        'todos': in_progress_todos
+    }
+    return render(request, 'in_progress_tasks.html', context)

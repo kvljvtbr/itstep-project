@@ -6,8 +6,9 @@
   <title>Users Todos</title>
 </head>
 <body>
+    <a href="{% url 'home' %}">Home</a>
     <h2>Users todos</h2><br>
-    <form action="{% url 'print_users_todos' %}" method="post">
+    <form action="{% url 'print_users_tasks' %}" method="post">
         {% csrf_token %}
         <button type="submit">show users and their todos</button>
     </form>
