@@ -4,50 +4,184 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <style>
+        body {
+            background-color: #585858;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+            font-family: "Open Sans", sans-serif;
+            color: #fff;
+        }
+
+        #logout {
+            margin-top: 20px;
+
+            button {
+                background-color: blue;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 20px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            button:hover {
+                background-color: navy;
+            }
+        }
+
+        #actions {
+            margin-top: 20px;
+            #completed-button {
+                background-color: green;
+                color: white;
+                text-decoration: none;
+                padding: 10px 20px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            #in-progress-button {
+                background-color: cornflowerblue;
+                color: white;
+                text-decoration: none;
+                padding: 10px 19px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            #deleted-button {
+                background-color: red;
+                color: white;
+                text-decoration: none;
+                padding: 10px 30px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        #print-users {
+            margin-top: 20px;
+            #print-users-button {
+                background-color: mediumpurple;
+                color: white;
+                text-decoration: none;
+                padding: 10px 30px;
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        form {
+            margin-top: 20px;
+            #task-input {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-right: 5px;
+            }
+
+            #task-submit-button {
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #6699CC;
+                color: white;
+                cursor: pointer;
+            }
+        }
+
+        table {
+          margin: 20px auto;
+          border-collapse: collapse;
+          width: 80%;
+        }
+
+        table th, table td {
+          padding: 10px;
+          border: 1px solid #fff;
+          color: #fff;
+        }
+
+        table th {
+          background-color: #333
+        }
+
+        table td {
+          background-color: #555;
+        }
+
+        table td a {
+          text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{ username }}</h2><br>
-    <div>
-        <a href="{% url 'logout' %}">Logout</a>
-    </div>
-    <div>
-        <a href="{% url 'completed_tasks' %}">Completed tasks</a><br>
-        <a href="{% url 'in_progress_tasks' %}">In progress tasks</a><br>
-        <a href="{% url 'deleted_tasks' %}">Deleted tasks</a><br>
-        {% if is_admin %}
-            <a href="{% url 'print_users_tasks' %}">Users Todos</a><br>
+
+  <h2>Welcome, {{ username }}</h2><br>
+
+  <div id="logout">
+    <button><a href="{% url 'logout' %}">Logout</a></button>
+  </div>
+
+  <div id="actions">
+    <button id="completed-button"><a href="{% url 'completed_tasks' %}">Completed tasks</a></button><br>
+    <button id="in-progress-button"><a href="{% url 'in_progress_tasks' %}">In progress tasks</a></button><br>
+    <button id="deleted-button"><a href="{% url 'deleted_tasks' %}">Deleted tasks</a></button><br>
+  </div>
+
+  <div id="print-users">
+    {% if is_admin %}
+      <button id="print-users-button"><a href="{% url 'print_users_tasks' %}">Users Todos</a></button><br>
+    {% endif %}
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Task..." name="task" id="task-input"/>
+    <button type="submit" id="task-submit-button">Add Task =></button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Task name</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todos %}
+      <tr>
+        <td>{{ todo.name }}</td>
+        {% if todo.status == True %}
+          <td style="color: lime; font-family: 'Open Sans', sans-serif;">Completed</td>
+        {% else %}
+          <td style="color: cornflowerblue; font-family: 'Open Sans', sans-serif;">In progress</td>
         {% endif %}
-    </div>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" placeholder="Task..." name="task"/>
-        <button type="submit">Add Task</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Task name</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for todo in todos %}
-            <tr>
-                <td>{{ todo.name }}</td>
-                {% if todo.status == True %}
-                    <td style="color: green">Completed</td>
-                {% else %}
-                    <td style="color: blue">In progress</td>
-                {% endif %}
-                <td>
-                    <a href="{% url 'delete' todo.name %}"><button style="color: red">delete task</button></a>
-                    <a href="{% url 'update' todo.name %}"><button style="color: green">finish task</button></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <td>
+          <a href="{% url 'delete' todo.name %}"><button style="color: red">delete task</button></a>
+          <a href="{% url 'update' todo.name %}"><button style="color: green">finish task</button></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
 </body>
 </html>
-

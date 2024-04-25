@@ -4,9 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Completed Tasks</title>
+    <style>
+        body {
+            background-color: #585858;
+            text-align: center;
+            font-family: "Open Sans", sans-serif;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+            color: lime;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #fff;
+            color: #fff;
+        }
+
+        table th {
+            background-color: #333;
+        }
+
+        table td {
+            background-color: #555;
+        }
+
+        table td a {
+            text-decoration: none;
+        }
+
+        #home-link {
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'home' %}" id="home-link">Home</a>
     <h2>Completed Tasks</h2><br>
     <table>
         <thead>

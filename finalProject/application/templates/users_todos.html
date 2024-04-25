@@ -4,14 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Users Todos</title>
+    <style>
+        body {
+            background-color: #585858;
+            text-align: center;
+            font-family: "Open Sans", sans-serif;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+            color: mediumpurple;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+                background-color: navy;
+            }
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+
+            th, td {
+                padding: 10px;
+                border: 1px solid #fff;
+                color: #fff;
+            }
+
+            th {
+                background-color: #333;
+            }
+
+            td {
+                background-color: #555;
+                a {
+                    text-decoration: none;
+                }
+            }
+        }
+    </style>
 </head>
 <body>
     <a href="{% url 'home' %}">Home</a>
+
     <h2>Users todos</h2><br>
     <form action="{% url 'print_users_tasks' %}" method="post">
         {% csrf_token %}
         <button type="submit">show users and their todos</button>
     </form>
+
     <table>
         <thead>
             <tr>
@@ -30,9 +87,9 @@
                             {% endif %}
                             <td>{{ todo.name }}</td>
                             {% if todo.status %}
-                                <td style="color: green">Completed</td>
+                                <td style="color: lime">Completed</td>
                             {% else %}
-                                <td style="color: blue">In progress</td>
+                                <td style="color: cornflowerblue">In progress</td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -45,5 +102,6 @@
             {% endfor %}
         </tbody>
     </table>
+
 </body>
 </html>

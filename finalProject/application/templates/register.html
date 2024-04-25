@@ -4,32 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
+    <style>
+        body {
+            background-color: #585858;
+            text-align: center;
+            font-family: "Open Sans", sans-serif;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        #username-input,
+        #email-input,
+        #password-input,
+        #register-button {
+            margin-bottom: 20px;
+        }
+
+        #username-input input[type="text"],
+        #email-input input[type="email"],
+        #password-input input[type="password"],
+        #register-button input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        #register-button input[type="submit"] {
+            cursor: pointer;
+            background-color: blue;
+        }
+
+        #register-button input[type="submit"]:hover {
+            background-color: navy;
+        }
+
+        .text {
+            margin-top: 20px;
+        }
+
+        .text h3 {
+            color: #fff;
+        }
+
+        .text h3 a {
+            color: cornflowerblue;
+            text-decoration: none;
+        }
+
+        .text h3 a:hover {
+            text-decoration: underline;
+        }
+
+        p.success-message {
+            color: lime;
+        }
+    </style>
 </head>
 <body>
     <h2>Register</h2><br>
 
     <form action="#" method="POST">
       {% csrf_token %}
-      <div class="input-box">
+      <div id="username-input">
         <input type="text" placeholder="Create a username" name="username" required>
       </div>
-      <div class="input-box">
+      <div id="email-input">
         <input type="email" placeholder="Enter your email" name="email" required>
       </div>
-      <div class="input-box">
+      <div id="password-input">
         <input type="password" placeholder="Enter your password" name="password" required>
       </div>
-      <div class="input-box button">
+      <div id="register-button">
         <input type="Submit" value="Register">
       </div>
       <div class="text">
-        <h3>Already have an account? <a href="{% url 'login' %}">Login now</a></h3>
+        <h3>Already have an account?<br> <a href="{% url 'login' %}">Login now</a></h3>
       </div>
     </form>
 
     {% if messages %}
       {% for message in messages %}
-        <p style="color: green">{{message}}</p>
+        <p class="success-message">{{message}}</p>
       {% endfor %}
     {% endif %}
 </body>

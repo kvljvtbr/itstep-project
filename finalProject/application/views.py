@@ -79,7 +79,7 @@ def logout_user(request):
 
 
 def delete_task(request, task_name):
-    todo = Todo.objects.get(user=request.user, name=task_name)
+    todo = Todo.objects.filter(user=request.user, name=task_name)
     todo.delete()
     return redirect('home')
 

@@ -4,29 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+    <style>
+        body {
+            background-color: #585858;
+            text-align: center;
+            font-family: "Open Sans", sans-serif;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        #username-input,
+        #password-input,
+        #submit-button {
+            margin-bottom: 20px;
+        }
+
+        #username-input input[type="text"],
+        #password-input input[type="password"],
+        #submit-button input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        #submit-button input[type="submit"] {
+            cursor: pointer;
+            background-color: blue;
+        }
+
+        #submit-button input[type="submit"]:hover {
+            background-color: navy;
+        }
+
+        .text {
+            margin-top: 20px;
+        }
+
+        .text h3 {
+            color: #fff;
+        }
+
+        .text h3 a {
+            color: cornflowerblue;
+            text-decoration: none;
+        }
+
+        p.error-message {
+            color: #FF003F;
+        }
+    </style>
 </head>
 <body>
     <h2>Login</h2><br>
 
     <form action="#" method="POST">
       {% csrf_token %}
-      <div class="input-box">
+      <div id="username-input">
         <input type="text" placeholder="Enter a username" name="username" required>
       </div>
-      <div class="input-box">
+      <div id="password-input">
         <input type="password" placeholder="Enter your password" name="password" required>
       </div>
-      <div class="input-box button">
+      <div id="submit-button">
         <input type="Submit" value="Login">
       </div>
       <div class="text">
-        <h3>Don't have an account? <a href="{% url 'register' %}">Register now</a></h3>
+        <h3>Don't have an account?<br> <a href="{% url 'register' %}">Register now</a></h3>
       </div>
     </form>
 
     {% if messages %}
       {% for message in messages %}
-        <p style="color: red;">{{message}}</p>
+        <p class="error-message">{{message}}</p>
       {% endfor %}
     {% endif %}
 </body>
